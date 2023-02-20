@@ -80,12 +80,10 @@
 	export default {
 		data() {
 			return {
-				// apiurl:'https://flask-web-fraework-xr-jyfghvhdsl.cn-hangzhou.fcapp.run',
-				apiurl: 'https://chat.nhbgxx.com/api/api.php',
+				apiurl: '请求接口地址',
 				apisucc: false,
 				apibut: '需要先进行API配置才能使用',
 				sentext: '发送',
-				apiadj: 'sk-KnPDpVeL9NnuIuInRhKDT3BlbkFJWOIIEA9EYAsmfqpKu5',
 				api: '',
 				msgLoad: true,
 				anData: {},
@@ -103,21 +101,8 @@
 		},
 
 		onLoad() {
-			// try {
-			// 	const value = uni.getStorageSync('sk');
-			// 	if (value) {
-			// 		console.log(value);
-			// 		this.api = value
-			// 		// this.apiset()
-
-			// 	}
-			// } catch (e) {
-			// 	// error
-			// 	console.log(e);
-			// }
 			// uni.request({
 			// 	url:this.apiurl,
-
 			// 	method:'GET',
 			// 	success: (res) => {
 			// 		console.log(res);
@@ -151,12 +136,8 @@
 				this.$refs.popup.open('left')
 			},
 			apiset() {
-				// this.$refs.popup.close('center')
-				// this.apibut = 'api检测中'
-
 				let data = JSON.stringify({
 					body: "你好"
-					// openaikey: this.api
 				})
 				uni.request({
 					url: this.apiurl,
@@ -173,7 +154,7 @@
 						this.msgLoad = false
 						this.setsklocal(this.api)
 						// }else{
-						// 	this.apibut = '连接失败，请检查apikey后重试'
+						// 	this.apibut = '连接失败，请重试'
 						// }
 					},
 				})
@@ -210,7 +191,6 @@
 						// if (res.data.code == 200){
 						let text = res.data.choices[0].text.replace("openai:", "").replace("openai：", "")
 							.replace(/^\n|\n$/g, "")
-						// .replace(/^\n|\n$/g, "")
 						console.log(text);
 						this.msgList.push({
 							"msg": text,
@@ -221,7 +201,7 @@
 						this.msgdis = true
 						this.sentext = '发送'
 						// }else{
-						// 	this.apibut = '连接失败，请检查apikey后重试'
+						// 	this.apibut = '连接失败，请重试'
 						// 	this.apisucc = false
 						// }
 					},
