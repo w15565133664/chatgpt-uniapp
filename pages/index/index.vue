@@ -25,8 +25,8 @@
 							</image>
 						</view>
 						<view class="flex" style="width: 500rpx;">
-							<view class="aimsg" style="border-radius: 35rpx;background-color: #f9f9f9;">
-								<text style="word-break: break-all;">{{x.msg}}</text>
+							<view class="aimsg"  style="border-radius: 35rpx;background-color: #f9f9f9;">
+								<text style="word-break: break-all;" @longtap="copy(x.msg)" >{{x.msg}}</text>
 							</view>
 						</view>
 					</view>
@@ -116,6 +116,25 @@
 		},
 
 		methods: {
+			copy(value){
+							console.log('----------')
+						  //提示模板
+						  uni.showModal({
+						    content:value,//模板中提示的内容
+						    confirmText:'复制内容',
+						    success:()=>{//点击复制内容的后调函数
+						      //uni.setClipboardData方法就是讲内容复制到粘贴板
+						      uni.setClipboardData({
+						        data:value,//要被复制的内容
+						        success:()=>{//复制成功的回调函数
+						          uni.showToast({//提示
+						            title:'复制成功'
+						          })
+						        }
+						      });
+						    }
+						  });
+						},
 			handleContact (e) {
 			        console.log(e.detail.path)
 			        console.log(e.detail.query)
