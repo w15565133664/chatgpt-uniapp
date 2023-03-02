@@ -136,8 +136,12 @@
 				this.$refs.popup.open('left')
 			},
 			apiset() {
+				// this.$refs.popup.close('center')
+				// this.apibut = 'api检测中'
+			
 				let data = JSON.stringify({
 					body: "你好"
+					// openaikey: this.api
 				})
 				uni.request({
 					url: this.apiurl,
@@ -145,20 +149,29 @@
 					method: 'POST',
 					success: (res) => {
 						console.log('suc', res, res.data.code)
-
+			
 						// if (res.data.code == 200){
-
+			
 						this.apibut = '连接成功',
 							this.apisucc = true
 						this.sentext = '发送'
 						this.msgLoad = false
 						this.setsklocal(this.api)
 						// }else{
-						// 	this.apibut = '连接失败，请重试'
+						// 	this.apibut = '连接失败，请检查apikey后重试'
 						// }
 					},
+					  fail:()=> {
+					            this.msgList.push({
+					              "msg": "服务器请求失败,请检测",
+					              "my": false
+					            })
+					            this.msgLoad = false
+					            this.msgdis = true
+					            this.sentext = '发送'
+					          }
 				})
-
+			
 			},
 			sendMsg() {
 				// 消息为空不做任何操作
@@ -175,7 +188,10 @@
 					"my": true
 				})
 				this.msgdis = false
-				this.msgContent += (this.msg + "\n")
+				this.msgContent.push({
+						  "role":"user",
+						  "content":this.msg,
+						})
 				console.log(this.msgContent);
 				this.msgLoad = true
 				// 清除消息
@@ -189,22 +205,34 @@
 					method: 'POST',
 					success: (res) => {
 						// if (res.data.code == 200){
-						let text = res.data.choices[0].text.replace("openai:", "").replace("openai：", "")
+						let text = res.data.choices[0].message.content.replace("openai:", "").replace("openai：", "")
 							.replace(/^\n|\n$/g, "")
+						// .replace(/^\n|\n$/g, "")
 						console.log(text);
 						this.msgList.push({
 							"msg": text,
 							"my": false
 						})
-						this.msgContent += (text + "\n")
+						this.msgContent.push({
+								  "role":res.data.choices[0].message.role,
+								  "content":text,
+								})
 						this.msgLoad = false
 						this.msgdis = true
 						this.sentext = '发送'
 						// }else{
-						// 	this.apibut = '连接失败，请重试'
+						// 	this.apibut = '连接失败，请检查apikey后重试'
 						// 	this.apisucc = false
 						// }
-					},
+					},fail:()=> {
+					            this.msgList.push({
+					              "msg": "服务器请求失败,请检测",
+					              "my": false
+					            })
+					            this.msgLoad = false
+					            this.msgdis = true
+					            this.sentext = '发送'
+					          }
 				})
 			},
 		}
