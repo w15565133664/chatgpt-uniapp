@@ -80,21 +80,16 @@
 	export default {
 		data() {
 			return {
-				// apiurl:'https://flask-web-fraework-xr-jyfghvhdsl.cn-hangzhou.fcapp.run',
-				apiurl: 'https://chat.nhbgxx.com/api/api.php',
+				apiurl: '请求接口地址',
 				apisucc: false,
 				apibut: '需要先进行API配置才能使用',
 				sentext: '发送',
-				apiadj: 'sk-KnPDpVeL9NnuIuInRhKDT3BlbkFJWOIIEA9EYAsmfqpKu5',
+				apiadj: '',
 				api: '',
 				msgLoad: true,
 				anData: {},
 				animationData: {},
 				showTow: false,
-				// msgList: [{
-				// 	my: false,
-				// 	msg: "你好呀,想问什么就问吧"
-				// }],
 				msgList: [],
 				msgContent: [],
 				msg: "",
@@ -133,17 +128,15 @@
 		methods: {
 			
 			copy(value){
-							console.log('----------')
-						  //提示模板
+						
 						  uni.showModal({
-						    content:value,//模板中提示的内容
+						    content:value,
 						    confirmText:'复制内容',
-						    success:()=>{//点击复制内容的后调函数
-						      //uni.setClipboardData方法就是讲内容复制到粘贴板
+						    success:()=>{
 						      uni.setClipboardData({
-						        data:value,//要被复制的内容
-						        success:()=>{//复制成功的回调函数
-						          uni.showToast({//提示
+						        data:value,
+						        success:()=>{
+						          uni.showToast({
 						            title:'复制成功'
 						          })
 						        }
@@ -171,12 +164,9 @@
 				this.$refs.popup.open('left')
 			},
 			apiset() {
-				// this.$refs.popup.close('center')
-				// this.apibut = 'api检测中'
 
 				let data = JSON.stringify({
 					body: "你好"
-					// openaikey: this.api
 				})
 				uni.request({
 					url: this.apiurl,
@@ -193,7 +183,7 @@
 						this.msgLoad = false
 						this.setsklocal(this.api)
 						// }else{
-						// 	this.apibut = '连接失败，请检查apikey后重试'
+						// 	this.apibut = '连接失败，请检查后重试'
 						// }
 					},
 					  fail:()=> {
@@ -213,10 +203,6 @@
 				if (this.msg == "") {
 					return 0;
 				}
-				// if (this.msgLoad == true) {
-				// 	this.$u.toast('请先配置api再进行使用')
-				// 	return 0
-				// }
 				this.sentext = '请求中'
 				this.msgList.push({
 					"msg": this.msg,
@@ -256,7 +242,7 @@
 						this.msgdis = true
 						this.sentext = '发送'
 						// }else{
-						// 	this.apibut = '连接失败，请检查apikey后重试'
+						// 	this.apibut = '连接失败，请检查后重试'
 						// 	this.apisucc = false
 						// }
 					},fail:()=> {
