@@ -13,7 +13,7 @@
 									style="word-break: break-all;border-radius: 35rpx;background-color: #f9f9f9;">{{x.msg}}</text>
 							</view>
 							<view class="chat-img ">
-								<image style="height: 75rpx;width: 75rpx;" src="../../static/user.png" mode="aspectFit">
+								<image style="height: 75rpx;width: 75rpx;" src="../../static/use1.png" mode="aspectFit">
 								</image>
 							</view>
 						</view>
@@ -21,7 +21,7 @@
 					<!-- 机器人消息 -->
 					<view v-if="!x.my" class="aiinfo">
 						<view class="chat-img ">
-							<image style="height: 75rpx;width: 75rpx;" src="../../static/openai.png" mode="aspectFit">
+							<image style="height: 75rpx;width: 75rpx;" src="../../static/openai1.png" mode="aspectFit">
 							</image>
 						</view>
 						<view class="flex" style="width: 500rpx;">
@@ -33,7 +33,7 @@
 				</view>
 				<view v-if="!msgdis" class="aiinfo">
 					<view class="chat-img ">
-						<image style="height: 75rpx;width: 75rpx;" src="../../static/openai.png" mode="aspectFit">
+						<image style="height: 75rpx;width: 75rpx;" src="../../static/openai1.png" mode="aspectFit">
 						</image>
 					</view>
 					<view class="flex" style="width: 500rpx;">
@@ -80,10 +80,12 @@
 	export default {
 		data() {
 			return {
-				apiurl: '请求接口地址',
+				// apiurl:'https://flask-web-fraework-xr-jyfghvhdsl.cn-hangzhou.fcapp.run',
+				apiurl: 'https://chat.nhbgxx.com/api/api.php',
 				apisucc: false,
 				apibut: '需要先进行API配置才能使用',
 				sentext: '发送',
+				apiadj: 'sk-KnPDpVeL9NnuIuInRhKDT3BlbkFJWOIIEA9EYAsmfqpKu5',
 				api: '',
 				msgLoad: true,
 				anData: {},
@@ -94,15 +96,28 @@
 				// 	msg: "你好呀,想问什么就问吧"
 				// }],
 				msgList: [],
-				msgContent: "",
+				msgContent: [],
 				msg: "",
 				msgdis: true
 			}
 		},
 
 		onLoad() {
+			// try {
+			// 	const value = uni.getStorageSync('sk');
+			// 	if (value) {
+			// 		console.log(value);
+			// 		this.api = value
+			// 		// this.apiset()
+
+			// 	}
+			// } catch (e) {
+			// 	// error
+			// 	console.log(e);
+			// }
 			// uni.request({
 			// 	url:this.apiurl,
+
 			// 	method:'GET',
 			// 	success: (res) => {
 			// 		console.log(res);
@@ -116,6 +131,7 @@
 		},
 
 		methods: {
+			
 			copy(value){
 							console.log('----------')
 						  //提示模板
@@ -157,7 +173,7 @@
 			apiset() {
 				// this.$refs.popup.close('center')
 				// this.apibut = 'api检测中'
-			
+
 				let data = JSON.stringify({
 					body: "你好"
 					// openaikey: this.api
@@ -168,9 +184,9 @@
 					method: 'POST',
 					success: (res) => {
 						console.log('suc', res, res.data.code)
-			
+
 						// if (res.data.code == 200){
-			
+
 						this.apibut = '连接成功',
 							this.apisucc = true
 						this.sentext = '发送'
@@ -190,7 +206,7 @@
 					            this.sentext = '发送'
 					          }
 				})
-			
+
 			},
 			sendMsg() {
 				// 消息为空不做任何操作
