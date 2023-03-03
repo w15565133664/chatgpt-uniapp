@@ -25,8 +25,8 @@
 							</image>
 						</view>
 						<view class="flex" style="width: 500rpx;">
-							<view class="aimsg"  style="border-radius: 35rpx;background-color: #f9f9f9;">
-								<text style="word-break: break-all;" @longtap="copy(x.msg)" >{{x.msg}}</text>
+							<view class="aimsg" style="border-radius: 35rpx;background-color: #f9f9f9;">
+								<text style="word-break: break-all;" @longtap="copy(x.msg)">{{x.msg}}</text>
 							</view>
 						</view>
 					</view>
@@ -63,14 +63,15 @@
 						<button class="btn " v-else>{{sentext}}</button>
 					</uni-col>
 				</uni-row>
-				
 
-				
+
+
 			</view>
 		</view>
 		<uni-popup ref="popup" type="left">
 			<view class="popcls">
-				<button class="session_btn" open-type="contact" bindcontact="handleContact" session-from="sessionFrom">联系客服</button>
+				<button class="session_btn" open-type="contact" bindcontact="handleContact"
+					session-from="sessionFrom">联系客服</button>
 			</view>
 		</uni-popup>
 	</view>
@@ -98,56 +99,33 @@
 		},
 
 		onLoad() {
-			// try {
-			// 	const value = uni.getStorageSync('sk');
-			// 	if (value) {
-			// 		console.log(value);
-			// 		this.api = value
-			// 		// this.apiset()
-
-			// 	}
-			// } catch (e) {
-			// 	// error
-			// 	console.log(e);
-			// }
-			// uni.request({
-			// 	url:this.apiurl,
-
-			// 	method:'GET',
-			// 	success: (res) => {
-			// 		console.log(res);
-			// 		this.apiadj = res.data
-			// 	}})
 			// wx.showShareMenu({
 			// 	withShareTicket: true,
 			// 	menus: ["shareAppMessage", "shareTimeline"]
 			// })
-
 		},
 
 		methods: {
-			
-			copy(value){
-						
-						  uni.showModal({
-						    content:value,
-						    confirmText:'复制内容',
-						    success:()=>{
-						      uni.setClipboardData({
-						        data:value,
-						        success:()=>{
-						          uni.showToast({
-						            title:'复制成功'
-						          })
-						        }
-						      });
-						    }
-						  });
-						},
-			handleContact (e) {
-			        console.log(e.detail.path)
-			        console.log(e.detail.query)
-			    },
+			copy(value) {
+				uni.showModal({
+					content: value,
+					confirmText: '复制内容',
+					success: () => {
+						uni.setClipboardData({
+							data: value,
+							success: () => {
+								uni.showToast({
+									title: '复制成功'
+								})
+							}
+						});
+					}
+				});
+			},
+			handleContact(e) {
+				console.log(e.detail.path)
+				console.log(e.detail.query)
+			},
 			setsklocal(apikey) {
 				uni.setStorage({
 					key: 'sk',
@@ -174,9 +152,7 @@
 					method: 'POST',
 					success: (res) => {
 						console.log('suc', res, res.data.code)
-
 						// if (res.data.code == 200){
-
 						this.apibut = '连接成功',
 							this.apisucc = true
 						this.sentext = '发送'
@@ -186,17 +162,16 @@
 						// 	this.apibut = '连接失败，请检查后重试'
 						// }
 					},
-					  fail:()=> {
-					            this.msgList.push({
-					              "msg": "服务器请求失败,请检测",
-					              "my": false
-					            })
-					            this.msgLoad = false
-					            this.msgdis = true
-					            this.sentext = '发送'
-					          }
+					fail: () => {
+						this.msgList.push({
+							"msg": "服务器请求失败,请检测",
+							"my": false
+						})
+						this.msgLoad = false
+						this.msgdis = true
+						this.sentext = '发送'
+					}
 				})
-
 			},
 			sendMsg() {
 				// 消息为空不做任何操作
@@ -210,9 +185,9 @@
 				})
 				this.msgdis = false
 				this.msgContent.push({
-						  "role":"user",
-						  "content":this.msg,
-						})
+					"role": "user",
+					"content": this.msg,
+				})
 				console.log(this.msgContent);
 				this.msgLoad = true
 				// 清除消息
@@ -226,8 +201,7 @@
 					method: 'POST',
 					success: (res) => {
 						// if (res.data.code == 200){
-						let text = res.data.choices[0].message.content.replace("openai:", "").replace("openai：", "")
-							.replace(/^\n|\n$/g, "")
+						let text = res.data.choices[0].message.content.replace("openai:", "").replace("openai：", "").replace(/^\n|\n$/g, "")
 						// .replace(/^\n|\n$/g, "")
 						console.log(text);
 						this.msgList.push({
@@ -235,9 +209,9 @@
 							"my": false
 						})
 						this.msgContent.push({
-								  "role":res.data.choices[0].message.role,
-								  "content":text,
-								})
+							"role": res.data.choices[0].message.role,
+							"content": text,
+						})
 						this.msgLoad = false
 						this.msgdis = true
 						this.sentext = '发送'
@@ -245,15 +219,16 @@
 						// 	this.apibut = '连接失败，请检查后重试'
 						// 	this.apisucc = false
 						// }
-					},fail:()=> {
-					            this.msgList.push({
-					              "msg": "服务器请求失败,请检测",
-					              "my": false
-					            })
-					            this.msgLoad = false
-					            this.msgdis = true
-					            this.sentext = '发送'
-					          }
+					},
+					fail: () => {
+						this.msgList.push({
+							"msg": "服务器请求失败,请检测",
+							"my": false
+						})
+						this.msgLoad = false
+						this.msgdis = true
+						this.sentext = '发送'
+					}
 				})
 			},
 		}
@@ -346,7 +321,7 @@
 
 	.btn {
 		height: 80rpx;
-		line-height:80rpx;
+		line-height: 80rpx;
 		width: 90%;
 		/* margin-left:40rpx; */
 		background-color: cornflowerblue;
@@ -355,14 +330,15 @@
 		border-radius: 10rpx;
 
 	}
-	
-.session_btn{
-	margin-top:20vw;
-	background-color: cornflowerblue;
-	color: #ffffff;
-	font-size: 35rpx;
-	border-radius: 10rpx;
-}
+
+	.session_btn {
+		margin-top: 20vw;
+		background-color: cornflowerblue;
+		color: #ffffff;
+		font-size: 35rpx;
+		border-radius: 10rpx;
+	}
+
 	.popcls {
 		width: 50vw;
 		height: 100%;
